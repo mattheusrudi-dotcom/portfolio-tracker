@@ -127,14 +127,14 @@
         // Configuration
         const API_KEY = 'H159AXI6NYSGJ6D3'; // Your Alpha Vantage API key
         const PORTFOLIO = [
-            { symbol: 'MSFT', shares: 10, costBasis: 250.00 }, // Microsoft
-            { symbol: 'AAPL', shares: 5, costBasis: 150.00 },   // Apple
-            { symbol: 'GOOGL', shares: 3, costBasis: 120.00 }, // Google
-            { symbol: 'AMZN', shares: 2, costBasis: 100.00 },  // Amazon
-            { symbol: 'TSLA', shares: 1, costBasis: 700.00 },  // Tesla
-            { symbol: 'NVDA', shares: 2, costBasis: 300.00 },  // NVIDIA
-            { symbol: 'META', shares: 3, costBasis: 200.00 }   // Meta
-        ];
+			{ symbol: 'AGGH', shares: 100, costBasis: 4.8932 },  // iShares Global Aggregate Bond ETF
+			{ symbol: 'BRK-B', shares: 5, costBasis: 472.84 },  // Berkshire Hathaway Class B
+			{ symbol: 'DFNS', shares: 200, costBasis: 49.77 },   // LGL Systems Acquisition Corp
+			{ symbol: 'CSPX', shares: 25, costBasis: 578.72 },  // iShares Core S&P 500 ETF
+			{ symbol: 'IEUR', shares: 50, costBasis: 84.82 },   // iShares Core MSCI Europe ETF
+			{ symbol: 'EQQQ', shares: 30, costBasis: 485.11 },  // Invesco EQQQ Nasdaq-100 ETF
+			{ symbol: 'QDVE', shares: 100, costBasis: 37.71 }   // SPDR MSCI World UCITS ETF
+		];
         const START_DATE = '2024-01-01'; // Changed to past date for actual data
 
         // Global data storage
@@ -206,7 +206,8 @@
 
         async function fetchStockData(symbol) {
             // Note: Alpha Vantage free tier has 5 requests per minute limit
-            const response = await axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=${API_KEY}&outputsize=compact`);
+			const formattedSymbol = symbol === 'BRK.B' ? 'BRK-B' : symbol;
+			const response = await axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${formattedSymbol}&apikey=${API_KEY}&outputsize=compact`);
             
             if (response.data.Note) {
                 throw new Error('API limit reached. Please wait and try again later.');
